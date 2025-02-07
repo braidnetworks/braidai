@@ -1,0 +1,17 @@
+{
+	"name": "@braidai/workspace",
+	"type": "module",
+	"private": true,
+	"packageManager": "pnpm@10.2.1",
+	"scripts": {
+		"lint": "eslint --max-warnings=0 --report-unused-disable-directives packages"
+	},
+	"dependencies": {
+		"eslint": "^9.19.0",
+		"typescript": "^5.7.3"
+	},
+	"devDependencies": {
+		"@braidai/eslintrc": "workspace:*",
+		"@types/node": "^22.13.1"
+	}
+}
