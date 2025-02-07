@@ -121,7 +121,10 @@ const javaScriptRules = {
 	"unicode-bom": [ "warn", "never" ],
 
 	// https://github.com/benmosher/eslint-plugin-import/tree/master/docs/rules
-	"import/extensions": [ "warn", "ignorePackages" ],
+	"import/extensions": [ "warn", "ignorePackages", {
+		// `import {} from "#internal";`
+		"#*": "ignore",
+	} ],
 	"import/first": "warn",
 	"import/newline-after-import": "warn",
 	"import/no-anonymous-default-export": "warn",
