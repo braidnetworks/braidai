@@ -1,0 +1,14 @@
+{
+	"name": "@braidai/lang",
+	"type": "module",
+	"version": "1.0.0",
+	"scripts": {
+		"prepare": "rm -rf dist && tsc -b"
+	},
+	"exports": {
+		"./*": {
+			"import": "./dist/*.js",
+			"types": "./dist/*.d.ts"
+		}
+	}
+}

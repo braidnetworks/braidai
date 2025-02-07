@@ -30,7 +30,7 @@
 		"lib": [ "esnext" ],
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
-		"types": [],
+		"types": [ "node" ],
 
 		// Types / strictness
 		"exactOptionalPropertyTypes": true,

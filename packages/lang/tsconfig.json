@@ -1,0 +1,8 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		// Broken until 5.9 (maybe?)
+		// https://github.com/microsoft/TypeScript/pull/60052
+		"isolatedDeclarations": false,
+	}
+}

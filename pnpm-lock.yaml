@@ -18,6 +18,9 @@ importers:
       '@braidai/eslintrc':
         specifier: workspace:*
         version: link:packages/eslintrc
+      '@types/braidai':
+        specifier: workspace:*
+        version: link:packages/types
       '@types/node':
         specifier: ^22.13.1
         version: 22.13.1
@@ -55,6 +58,10 @@ importers:
       '@types/node':
         specifier: ^22.13.1
         version: 22.13.1
+
+  packages/lang: {}
+
+  packages/types: {}
 
 packages:
 

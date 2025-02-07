@@ -3,5 +3,6 @@
 	"include": [],
 	"references": [
 		{ "path": "./packages/eslintrc/tsconfig.json" },
+		{ "path": "./packages/lang/tsconfig.json" },
 	],
 }

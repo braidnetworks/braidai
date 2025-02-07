@@ -4,7 +4,9 @@
 	"private": true,
 	"packageManager": "pnpm@10.2.1",
 	"scripts": {
-		"lint": "eslint --max-warnings=0 --report-unused-disable-directives packages"
+		"clean": "find packages -name node_modules -prune -false -o -name dist -type d -print -exec rm -rf {} +",
+		"lint": "eslint --max-warnings=0 --report-unused-disable-directives packages",
+		"test": "node --experimental-strip-types --enable-source-maps --test-reporter=spec --test packages/**/__tests__/*.ts"
 	},
 	"dependencies": {
 		"eslint": "^9.19.0",
