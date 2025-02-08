@@ -46,6 +46,7 @@ const javaScriptRules = {
 	"no-extend-native": "warn",
 	"no-extra-bind": "warn",
 	"no-extra-label": "warn",
+	"no-global-assign": "warn",
 	"no-implied-eval": "warn",
 	"no-iterator": "warn",
 	"no-label-var": "warn",
@@ -53,10 +54,9 @@ const javaScriptRules = {
 	"no-lone-blocks": "warn",
 	"no-lonely-if": "warn",
 	"no-multi-str": "warn",
-	"no-native-reassign": "warn",
 	"no-negated-condition": "warn",
-	"no-negated-in-lhs": "warn",
 	"no-new-func": "warn",
+	"no-new-native-nonconstructor": "warn",
 	"no-new-wrappers": "warn",
 	"no-new": "warn",
 	"no-object-constructor": "warn",
@@ -78,6 +78,7 @@ const javaScriptRules = {
 	"no-throw-literal": "warn",
 	"no-undef-init": "warn",
 	"no-unreachable-loop": "warn",
+	"no-unsafe-negation": "warn",
 	"no-unused-expressions": [ "warn", {
 		allowShortCircuit: true,
 		allowTernary: true,
@@ -120,10 +121,13 @@ const javaScriptRules = {
 	yoda: "warn",
 	"unicode-bom": [ "warn", "never" ],
 
-	// https://github.com/benmosher/eslint-plugin-import/tree/master/docs/rules
+	// https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/extensions.md
 	"import/extensions": [ "warn", "ignorePackages", {
+		// TODO[marcel 2025-02-08]: Will be added in eslint-plugin-import v2.32.0
 		// `import {} from "#internal";`
-		"#*": "ignore",
+		pathGroupOverrides: [
+			{ pattern: "#*", action: "ignore" },
+		],
 	} ],
 	"import/first": "warn",
 	"import/newline-after-import": "warn",
@@ -148,9 +152,6 @@ const javaScriptRules = {
 
 /** @type {RulesRecord} */
 const formattingRules = {
-	// See: @stylistic/no-extra-semi
-	"no-extra-semi": "off",
-
 	"@stylistic/array-bracket-newline": [ "warn", "consistent" ],
 	"@stylistic/array-bracket-spacing": [ "warn", "always" ],
 	"@stylistic/arrow-parens": [ "warn", "as-needed" ],
@@ -277,8 +278,11 @@ const typeScriptRules = acceptTypeScriptRules({
 	} ],
 
 	// TypeScript-exclusive
+	"@typescript-eslint/adjacent-overload-signatures": "warn",
 	"@typescript-eslint/array-type": "warn",
-	"@typescript-eslint/ban-ts-comment": "off",
+	"@typescript-eslint/ban-ts-comment": [ "warn", {
+		"ts-expect-error": "allow-with-description",
+	} ],
 	"@typescript-eslint/class-literal-property-style": "warn",
 	"@typescript-eslint/consistent-generic-constructors": "warn",
 	"@typescript-eslint/consistent-indexed-object-style": "warn",
@@ -294,15 +298,19 @@ const typeScriptRules = acceptTypeScriptRules({
 	"@typescript-eslint/member-ordering": "warn",
 	"@typescript-eslint/method-signature-style": "warn",
 	"@typescript-eslint/no-confusing-non-null-assertion": "warn",
+	"@typescript-eslint/no-dynamic-delete": "warn",
 	"@typescript-eslint/no-empty-function": "off",
 	"@typescript-eslint/no-explicit-any": "off",
 	"@typescript-eslint/no-extraneous-class": "warn",
 	"@typescript-eslint/no-invalid-void-type": [ "warn", { allowAsThisParameter: true } ],
+	"@typescript-eslint/no-misused-spread": "warn",
 	"@typescript-eslint/no-namespace": "warn",
 	"@typescript-eslint/no-non-null-asserted-nullish-coalescing": "warn",
+	"@typescript-eslint/no-unnecessary-type-parameters": "warn",
 	"@typescript-eslint/no-unsafe-unary-minus": "warn",
 	"@typescript-eslint/no-useless-constructor": "warn",
 	"@typescript-eslint/no-useless-empty-export": "warn",
+	// TODO[marcel 2025-02-08]: Will be subsumed by `erasableSyntaxOnly`
 	"@typescript-eslint/parameter-properties": "warn",
 	"@typescript-eslint/prefer-enum-initializers": "warn",
 	"@typescript-eslint/prefer-for-of": "warn",
@@ -310,8 +318,9 @@ const typeScriptRules = acceptTypeScriptRules({
 	"@typescript-eslint/prefer-literal-enum-member": "warn",
 	// This raises alarms on basically every built-in
 	"@typescript-eslint/prefer-readonly-parameter-types": "off",
-	"@typescript-eslint/prefer-ts-expect-error": "warn",
+	"@typescript-eslint/related-getter-setter-pairs": "warn",
 	"@typescript-eslint/unified-signatures": "warn",
+	"@typescript-eslint/use-unknown-in-catch-callback-variable": "warn",
 
 	"import/consistent-type-specifier-style": [ "warn", "prefer-top-level" ],
 });
@@ -377,7 +386,10 @@ const typedTypeScriptRules = acceptTypeScriptRules({
 		// you.
 		allowAny: true,
 	} ],
-	"@typescript-eslint/switch-exhaustiveness-check": "warn",
+	"@typescript-eslint/switch-exhaustiveness-check": [ "warn", {
+		considerDefaultExhaustiveForUnions: true,
+		requireDefaultForNonUnion: true,
+	} ],
 });
 
 // Rules inherited from plugins will be checked against this list. If they do *not* appear in the

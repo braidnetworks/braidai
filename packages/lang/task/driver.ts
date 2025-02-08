@@ -29,7 +29,7 @@ function pull<Type>(pullable: Operation<Type> | null | undefined | void, signal:
 			// Forward promise value
 			pullable.then(
 				value => send(channel => channel.resolve(value)),
-				error => send(channel => channel.reject(error)));
+				(error: unknown) => send(channel => channel.reject(error)));
 			return;
 		}
 	} else if (pullable === undefined) {
