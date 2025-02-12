@@ -1,4 +1,1 @@
-*
-!LICENSE
-!dist/**/*
-tsconfig.tsbuildinfo
+tsconfig.json

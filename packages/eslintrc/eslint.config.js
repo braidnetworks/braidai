@@ -61,7 +61,6 @@ const javaScriptRules = {
 	"no-new": "warn",
 	"no-object-constructor": "warn",
 	"no-octal-escape": "warn",
-	"no-param-reassign": "warn",
 	"no-promise-executor-return": [ "warn", { allowVoid: true } ],
 	"no-restricted-imports": [ "warn", {
 		paths: [
