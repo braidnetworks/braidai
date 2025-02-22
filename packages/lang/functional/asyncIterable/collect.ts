@@ -8,76 +8,76 @@ export function collect<Type>(iterables: readonly AsyncIterable<Type>[]): AsyncI
 	switch (iterables.length) {
 		case 0: return async function*() {}();
 		case 1: return iterables[0]!;
-	}
-	return async function*() {
-		type Accept = () => Type;
-		let count = iterables.length;
-		let deferred: PromiseWithResolvers<Accept | null> | undefined;
-		const iterators: AsyncIterator<Type>[] = [];
-		const queue: Accept[] = [];
-		const accept = async (iterator: AsyncIterator<Type>) => {
-			try {
-				const next = await iterator.next();
-				if (next.done) {
-					if (--count === 0 && deferred !== undefined) {
-						deferred.resolve(null);
+		default: return async function*() {
+			type Accept = () => Type;
+			let count = iterables.length;
+			let deferred: PromiseWithResolvers<Accept | null> | undefined;
+			const iterators: AsyncIterator<Type>[] = [];
+			const queue: Accept[] = [];
+			const accept = async (iterator: AsyncIterator<Type>) => {
+				try {
+					const next = await iterator.next();
+					if (next.done) {
+						if (--count === 0 && deferred !== undefined) {
+							deferred.resolve(null);
+						}
+					} else {
+						push(() => {
+							void accept(iterator);
+							return next.value;
+						});
 					}
-				} else {
-					push(() => {
-						void accept(iterator);
-						return next.value;
-					});
+				} catch (error) {
+					push(() => { throw error; });
 				}
-			} catch (error) {
-				push(() => { throw error; });
-			}
-		};
-		const push = (accept: Accept) => {
-			if (deferred === undefined) {
-				queue.push(accept);
-			} else {
-				deferred.resolve(accept);
-			}
-		};
+			};
+			const push = (accept: Accept) => {
+				if (deferred === undefined) {
+					queue.push(accept);
+				} else {
+					deferred.resolve(accept);
+				}
+			};
 
-		try {
-			// Begin all iterators
-			for (const iterable of iterables) {
-				const iterator = iterable[Symbol.asyncIterator]();
-				iterators.push(iterator);
-				void accept(iterator);
-			}
+			try {
+				// Begin all iterators
+				for (const iterable of iterables) {
+					const iterator = iterable[Symbol.asyncIterator]();
+					iterators.push(iterator);
+					void accept(iterator);
+				}
 
-			// Delegate to iterables as results complete
-			while (true) {
+				// Delegate to iterables as results complete
 				while (true) {
-					const next = queue.shift();
-					if (next === undefined) {
+					while (true) {
+						const next = queue.shift();
+						if (next === undefined) {
+							break;
+						} else {
+							yield next();
+						}
+					}
+					if (count === 0) {
 						break;
 					} else {
-						yield next();
+						deferred = Promise.withResolvers();
+						const next = await deferred.promise;
+						if (next === null) {
+							break;
+						} else {
+							deferred = undefined;
+							yield next();
+						}
 					}
 				}
-				if (count === 0) {
-					break;
-				} else {
-					deferred = Promise.withResolvers();
-					const next = await deferred.promise;
-					if (next === null) {
-						break;
-					} else {
-						deferred = undefined;
-						yield next();
-					}
-				}
-			}
 
-		} catch (err) {
-			// Unwind remaining iterators on failure
-			try {
-				await mapAwait(iterators, iterator => iterator.return?.());
-			} catch {}
-			throw err;
-		}
-	}();
+			} catch (err) {
+				// Unwind remaining iterators on failure
+				try {
+					await mapAwait(iterators, iterator => iterator.return?.());
+				} catch {}
+				throw err;
+			}
+		}();
+	}
 }

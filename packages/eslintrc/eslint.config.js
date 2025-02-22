@@ -122,11 +122,11 @@ const javaScriptRules = {
 
 	// https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/extensions.md
 	// "import/extensions": [ "warn", "ignorePackages", {
-	// 	// TODO[marcel 2025-02-08]: Will be added in eslint-plugin-import v2.32.0
-	// 	// `import {} from "#internal";`
-	// 	pathGroupOverrides: [
-	// 		{ pattern: "#*", action: "ignore" },
-	// 	],
+	// // TODO[marcel 2025-02-08]: Will be added in eslint-plugin-import v2.32.0
+	// // `import {} from "#internal";`
+	// pathGroupOverrides: [
+	//   { pattern: "#*", action: "ignore" },
+	// ],
 	// } ],
 	"import/first": "warn",
 	"import/newline-after-import": "warn",
