@@ -28,6 +28,10 @@ export function chain(
 		: next;
 }
 
+export function chainSequenceInto<Arg>(prev: (arg: Arg) => Arg, next: (arg: Arg) => Arg) {
+	return (arg: Arg) => next(prev(arg));
+}
+
 export function chainSequenceVoid0(prev: () => void, next: () => void) {
 	return (): void => {
 		next();
