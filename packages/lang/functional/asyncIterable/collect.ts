@@ -18,8 +18,8 @@ export function collect<Type>(iterables: readonly AsyncIterable<Type>[]): AsyncI
 				try {
 					const next = await iterator.next();
 					if (next.done) {
-						if (--count === 0 && deferred !== undefined) {
-							deferred.resolve(null);
+						if (--count === 0) {
+							deferred?.resolve(null);
 						}
 					} else {
 						push(() => {
@@ -71,12 +71,13 @@ export function collect<Type>(iterables: readonly AsyncIterable<Type>[]): AsyncI
 					}
 				}
 
-			} catch (err) {
-				// Unwind remaining iterators on failure
-				try {
-					await mapAwait(iterators, iterator => iterator.return?.());
-				} catch {}
-				throw err;
+			} finally {
+				// Unwind remaining iterators
+				if (count !== 0) {
+					try {
+						await mapAwait(iterators, iterator => iterator.return?.());
+					} catch {}
+				}
 			}
 		}();
 	}
