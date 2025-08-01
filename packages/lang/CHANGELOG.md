@@ -1,5 +1,11 @@
 # @braidai/lang
 
+## 1.1.1
+
+### Patch Changes
+
+- 7061ccf: Workaround Safari 18.4 bug
+
 ## 1.1.0
 
 ### Minor Changes

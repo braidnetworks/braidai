@@ -9,7 +9,10 @@ export const reduce: <Type, Result = Type>(
 	initial: Result,
 	reducer: (accumulator: Result, value: Type, index: number) => Result,
 ) => Result = function() {
-	if (Iterator) {
+	// Safari 18.4 didn't get this correct which causes total anarchy
+	// https://bugs.webkit.org/show_bug.cgi?id=291651
+	// eslint-disable-next-line no-constant-condition, no-constant-binary-expression, @typescript-eslint/no-unnecessary-condition
+	if (false && Iterator) {
 		return (iterable, initial, reducer) =>
 			Iterator!.from(iterable).reduce(reducer, initial);
 	} else {

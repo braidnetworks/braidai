@@ -1,7 +1,7 @@
 {
 	"name": "@braidai/lang",
 	"type": "module",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"license": "ISC",
 	"homepage": "https://github.com/braidnetworks/braidai/tree/main/packages/lang",
 	"repository": {
