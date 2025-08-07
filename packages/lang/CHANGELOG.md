@@ -1,5 +1,11 @@
 # @braidai/lang
 
+## 1.1.2
+
+### Patch Changes
+
+- 1cfb2e6: LICENSE metadata
+
 ## 1.1.1
 
 ### Patch Changes
